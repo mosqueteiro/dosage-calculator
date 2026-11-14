@@ -9,6 +9,8 @@
 
 ## Toolchain quirks (hard-earned)
 
+- **`devenv test` vs running processes**: `devenv test` fails with "Processes already running" while a `devenv up -d` server is up. Either `devenv processes down` first, or run `devenv shell -- npm test` / `npm run check` directly (the server stays up).
+
 - **Dev server caching**: `python3 -m http.server` sends no `Cache-Control`, so browsers heuristically cache CSS/JS — soft reloads can serve stale assets (use hard reload, or a fresh `--profile` dir for headless-Firefox screenshots). Decided: we keep plain http.server anyway.
 
 - **devenv 2.4 gotcha**: a legacy `enterTest = "…"` string is *not* executed by `devenv test` (the script builds into the Nix store but nothing invokes it). Tests must be defined as `tasks."devenv:enterTest".exec` in `devenv.nix`, with `showOutput = true` or output is hidden.
