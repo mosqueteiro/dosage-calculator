@@ -33,6 +33,12 @@
   box-sizing: border-box;
 }
 
+/* Utility guard: class-based display rules (e.g. .panel's flex) would
+   otherwise override the UA's [hidden] { display: none }. */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   padding: 0 1rem 2rem;
@@ -233,10 +239,6 @@ body {
   background: var(--warn-bg);
   color: var(--warn-text);
   font-size: 0.88rem;
-}
-
-.warnings[hidden] {
-  display: none;
 }
 
 .warnings ul {
