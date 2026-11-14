@@ -150,6 +150,63 @@
 
       <div class="warnings" id="quick-warnings" role="status" aria-live="polite"></div>
     </section>
+
+    <!-- ============================= Presets ============================= -->
+    <section class="section" id="presets-section" aria-label="Presets">
+      <h2>Presets</h2>
+
+      <div class="card">
+        <h3>Reconstitution presets</h3>
+        <p class="hint">Saves the vial amount and diluent currently in the Reconstitution panel.</p>
+        <div class="save-row">
+          <input id="rec-preset-name" type="text" autocomplete="off"
+                 placeholder="Preset name (e.g. BPC 5 mg)" aria-label="Reconstitution preset name">
+          <button type="button" id="save-rec-preset" class="btn btn-primary">Save current</button>
+        </div>
+        <p class="form-warning" id="rec-preset-warning" role="status" hidden></p>
+        <ul class="item-list" id="rec-preset-list"></ul>
+      </div>
+
+      <div class="card">
+        <h3>Dose presets</h3>
+        <p class="hint">Saves the dose from the panel you last edited (<span id="dose-preset-source">—</span>).</p>
+        <div class="save-row">
+          <input id="dose-preset-name" type="text" autocomplete="off"
+                 placeholder="Preset name (e.g. Morning 250 mcg)" aria-label="Dose preset name">
+          <select id="dose-preset-link" aria-label="Linked reconstitution preset"></select>
+          <button type="button" id="save-dose-preset" class="btn btn-primary">Save current dose</button>
+        </div>
+        <p class="form-warning" id="dose-preset-warning" role="status" hidden></p>
+        <ul class="item-list" id="dose-preset-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================= History ============================= -->
+    <section class="section" id="history-section" aria-label="History">
+      <h2>History</h2>
+      <div class="card">
+        <div class="history-head">
+          <span class="hint">Tap an entry to reload its inputs.</span>
+          <span id="history-count" class="badge"></span>
+          <button type="button" id="clear-history" class="btn btn-danger">Clear all</button>
+        </div>
+        <ul class="item-list" id="history-list"></ul>
+      </div>
+    </section>
+
+    <!-- ============================ Settings ============================= -->
+    <section class="section" id="settings-section" aria-label="Settings">
+      <h2>Settings</h2>
+      <div class="card">
+        <div class="field">
+          <label for="units-per-ml">Syringe units per mL</label>
+          <p class="hint">100 = U-100 insulin syringe (the default). Use 40 for U-40, 50 for U-50, etc.</p>
+          <input id="units-per-ml" type="text" inputmode="numeric"
+                 autocomplete="off" placeholder="100">
+          <p class="form-warning" id="units-per-ml-warning" role="status" hidden></p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="app-footer">
