@@ -1,0 +1,21 @@
+# Dependencies (dev-only tooling)
+node_modules/
+
+# Build/type-check output (tsc runs with --noEmit, but just in case)
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment / secrets
+.env
+.env.*
+
+# Editor / OS cruft
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
