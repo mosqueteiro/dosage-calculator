@@ -25,6 +25,7 @@ import {
   parseMass,
   parseMassMcg,
   parseMassMg,
+  parseConcentrationMgPerMl,
   parseUnitsPerMl,
   parseVolumeMl,
   ratioToString,
@@ -507,6 +508,24 @@ test('concentrationMgPerMl: defaults to 2 decimals', () => {
   assert.equal(concentrationMgPerMl(computeConcentration({ vialUg: ug(5000), diluentUl: ul(2000) })), '2.5');
   assert.equal(concentrationMgPerMl(computeConcentration({ vialUg: ug(5000), diluentUl: ul(500) })), '10');
   assert.equal(concentrationMgPerMl(computeConcentration({ vialUg: ug(1000), diluentUl: ul(3000) })), '0.33');
+});
+
+// ---------------------------------------------------------------------------
+// parseConcentrationMgPerMl
+// ---------------------------------------------------------------------------
+
+test('parseConcentrationMgPerMl: exact ratio, no division', () => {
+  assert.deepEqual(parseConcentrationMgPerMl('0.25'), { massUg: 250, volumeUl: 1000 });
+  assert.deepEqual(parseConcentrationMgPerMl('5'), { massUg: 5000, volumeUl: 1000 });
+  assert.deepEqual(parseConcentrationMgPerMl('0.001'), { massUg: 1, volumeUl: 1000 });
+  // Float-drift regression: 0.1 mg/mL is exactly 100 µg/µL — no 100.00000000000001.
+  assert.deepEqual(parseConcentrationMgPerMl('0.1'), { massUg: 100, volumeUl: 1000 });
+});
+
+test('parseConcentrationMgPerMl: rejects zero, junk, and sub-µg precision', () => {
+  assertCalcThrows(CalcErrorCode.ZERO_VIAL, () => parseConcentrationMgPerMl('0'));
+  assertCalcThrows(CalcErrorCode.INVALID, () => parseConcentrationMgPerMl('abc'));
+  assertCalcThrows(CalcErrorCode.PRECISION, () => parseConcentrationMgPerMl('0.0005'));
 });
 
 // ---------------------------------------------------------------------------

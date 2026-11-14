@@ -450,6 +450,20 @@ export function computeDoseFromVolume({ drawUl, concentration }) {
   return { value: asUg(q), rounded: !exact };
 }
 
+/**
+ * Parse a concentration given in mg/mL into an exact ratio (µg/µL):
+ * `"0.25"` → `{ massUg: 250, volumeUl: 1000 }` (= 0.25 µg/µL = 0.25 mg/mL).
+ * The denominator is the fixed 1000 µL reference volume, so the ratio stays
+ * exact and no division ever happens.
+ *
+ * @param {string} input
+ * @returns {Concentration}
+ */
+export function parseConcentrationMgPerMl(input) {
+  const massUg = parseMassMg(input);
+  return computeConcentration({ vialUg: massUg, diluentUl: asUl(1000) });
+}
+
 // ---------------------------------------------------------------------------
 // Syringe units
 // ---------------------------------------------------------------------------

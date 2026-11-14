@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Dosage Calculator</title>
+  <link rel="stylesheet" href="./styles/main.css">
+  <script type="module" src="./src/js/main.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Dosage Calculator</h1>
+  </header>
+
+  <section class="disclaimer" role="note" aria-label="Disclaimer">
+    <strong>Informational tool only.</strong> Verify all calculations with a
+    healthcare provider.
+  </section>
+
+  <main class="app">
+    <nav class="mode-tabs" aria-label="Calculator mode">
+      <button type="button" id="tab-reconstitution" class="mode-tab" role="tab"
+              aria-selected="true" aria-controls="panel-reconstitution">
+        Reconstitution
+      </button>
+      <button type="button" id="tab-quickdose" class="mode-tab" role="tab"
+              aria-selected="false" aria-controls="panel-quickdose" tabindex="-1">
+        Quick dose
+      </button>
+    </nav>
+
+    <!-- ======================= Reconstitution mode ======================= -->
+    <section id="panel-reconstitution" class="panel" role="tabpanel"
+             aria-labelledby="tab-reconstitution">
+      <fieldset class="card">
+        <legend>Vial</legend>
+        <div class="field">
+          <label for="rec-vial">Vial amount</label>
+          <div class="field-row">
+            <input id="rec-vial" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="e.g. 5">
+            <select id="rec-vial-unit" aria-label="Vial amount unit">
+              <option value="mg" selected>mg</option>
+              <option value="mcg">mcg</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="rec-diluent">Diluent volume (mL)</label>
+          <input id="rec-diluent" type="text" inputmode="decimal"
+                 autocomplete="off" placeholder="e.g. 2">
+        </div>
+        <div class="readout">
+          <span class="readout-label">Concentration</span>
+          <span class="readout-value" id="rec-concentration-out">—</span>
+        </div>
+      </fieldset>
+
+      <fieldset class="card dose-group">
+        <legend>Desired dose</legend>
+        <p class="hint">Edit any field — the others update live. <span aria-hidden="true">≈</span> marks a rounded value.</p>
+        <div class="dose-grid">
+          <div class="field">
+            <label for="rec-dose-mg">mg <span class="approx" hidden>≈</span></label>
+            <input id="rec-dose-mg" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+          <div class="field">
+            <label for="rec-dose-mcg">mcg <span class="approx" hidden>≈</span></label>
+            <input id="rec-dose-mcg" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+          <div class="field">
+            <label for="rec-dose-ml">mL <span class="approx" hidden>≈</span></label>
+            <input id="rec-dose-ml" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+          <div class="field">
+            <label for="rec-dose-units">units <span class="approx" hidden>≈</span></label>
+            <input id="rec-dose-units" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="card results">
+        <div class="readout">
+          <span class="readout-label">Draw volume</span>
+          <span class="readout-value" id="rec-draw-out">—</span>
+        </div>
+        <div class="readout">
+          <span class="readout-label">Syringe units</span>
+          <span class="readout-value" id="rec-units-out">—</span>
+        </div>
+      </div>
+
+      <div class="warnings" id="rec-warnings" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- ========================= Quick dose mode ========================= -->
+    <section id="panel-quickdose" class="panel" role="tabpanel"
+             aria-labelledby="tab-quickdose" hidden>
+      <fieldset class="card">
+        <legend>Known concentration</legend>
+        <div class="field">
+          <label for="quick-conc">Concentration (mg/mL)</label>
+          <input id="quick-conc" type="text" inputmode="decimal"
+                 autocomplete="off" placeholder="e.g. 0.25">
+        </div>
+      </fieldset>
+
+      <fieldset class="card dose-group">
+        <legend>Desired dose</legend>
+        <p class="hint">Edit any field — the others update live. <span aria-hidden="true">≈</span> marks a rounded value.</p>
+        <div class="dose-grid">
+          <div class="field">
+            <label for="quick-dose-mg">mg <span class="approx" hidden>≈</span></label>
+            <input id="quick-dose-mg" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+          <div class="field">
+            <label for="quick-dose-mcg">mcg <span class="approx" hidden>≈</span></label>
+            <input id="quick-dose-mcg" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+          <div class="field">
+            <label for="quick-dose-ml">mL <span class="approx" hidden>≈</span></label>
+            <input id="quick-dose-ml" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+          <div class="field">
+            <label for="quick-dose-units">units <span class="approx" hidden>≈</span></label>
+            <input id="quick-dose-units" type="text" inputmode="decimal"
+                   autocomplete="off" placeholder="—">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="card results">
+        <div class="readout">
+          <span class="readout-label">Draw volume</span>
+          <span class="readout-value" id="quick-draw-out">—</span>
+        </div>
+        <div class="readout">
+          <span class="readout-label">Syringe units</span>
+          <span class="readout-value" id="quick-units-out">—</span>
+        </div>
+      </div>
+
+      <div class="warnings" id="quick-warnings" role="status" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Runs entirely on your device. No network calls, no analytics.</p>
+  </footer>
+</body>
+</html>
