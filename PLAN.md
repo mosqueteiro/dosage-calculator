@@ -78,9 +78,11 @@ bugs are impossible by construction:
   (≤ ~100 mg = 100,000,000 µg) are far below `Number.MAX_SAFE_INTEGER`, so
   plain integers suffice — no BigInt, no decimal library.
 - **Decimal parsing is string-based.** User input `"0.25"` is split on the
-  decimal point into `250000` µg via integer arithmetic on the digit strings.
-  Never `Number(input) * 1000` (that is itself lossy: `0.1 * 1000 ===
-  100.00000000000001`).
+  decimal point into `250` µg via integer arithmetic on the digit strings.
+  Never do float arithmetic on doses — e.g. `Number(input) * 1000` or
+  `0.1 + 0.2` (the classic traps: `0.1 + 0.2 === 0.30000000000000004` and
+  `0.3 / 0.1 === 2.9999999999999996`). String parsing sidesteps them by
+  construction.
 - **Division rounding policy.** Division is the only non-integer operation
   (e.g., 250 µg ÷ 3 µg/µL). Results are rounded to the nearest µL (round
   half up). 1 µL = 0.001 mL, ten times finer than the 0.01 mL gradation of a

@@ -10,8 +10,9 @@
  *   far below `Number.MAX_SAFE_INTEGER`, so plain integers suffice.
  * - **Decimal parsing is string-based.** User input `"0.25"` is split on the
  *   decimal point and shifted with integer arithmetic on digit strings.
- *   Never `Number(input) * 1000` (which is lossy: `0.1 * 1000 ===
- *   100.00000000000001`).
+ *   Never float arithmetic on doses — e.g. `Number(input) * 1000` or
+ *   `0.1 + 0.2` (the classic traps: `0.1 + 0.2 === 0.30000000000000004`,
+ *   `0.3 / 0.1 === 2.9999999999999996`).
  * - **Division rounds once, half up.** Division is the only non-integer
  *   operation. Results are rounded to the nearest µL (or µg / whole syringe
  *   unit, depending on the target) and never re-rounded. Rounded results are

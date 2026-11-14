@@ -18,7 +18,9 @@
 The dosage math is the core of this app; these rules come from PLAN.md §4 and tests will enforce them:
 
 - All arithmetic is fixed-point integer: mass in **µg**, volume in **µL** (`1 mg/mL = 1 µg/µL`). Never do float arithmetic on doses/volumes.
-- Parse decimal input with string-based integer arithmetic, never `Number(input) * 1000` (lossy: `0.1 * 1000 === 100.00000000000001`).
+- Parse decimal input with string-based integer arithmetic, never float
+  arithmetic on doses (`0.1 + 0.2 === 0.30000000000000004`,
+  `0.3 / 0.1 === 2.9999999999999996`).
 - Division rounds once, to the nearest µL (round half up); never re-round intermediates.
 - All math lives in `src/js/lib/calc.js` as pure functions (no DOM) so `node --test` can cover it exhaustively.
 - Types via JSDoc annotations, checked by `tsc --noEmit --checkJs`; use branded unit types so mixing units is a compile error.
