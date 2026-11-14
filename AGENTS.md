@@ -9,6 +9,8 @@
 
 ## Toolchain quirks (hard-earned)
 
+- **Dev server caching**: `python3 -m http.server` sends no `Cache-Control`, so browsers heuristically cache CSS/JS — soft reloads can serve stale assets (use hard reload, or a fresh `--profile` dir for headless-Firefox screenshots). Decided: we keep plain http.server anyway.
+
 - **devenv 2.4 gotcha**: a legacy `enterTest = "…"` string is *not* executed by `devenv test` (the script builds into the Nix store but nothing invokes it). Tests must be defined as `tasks."devenv:enterTest".exec` in `devenv.nix`, with `showOutput = true` or output is hidden.
 - devenv requires `languages.javascript.npm.enable = true` before `npm.install.enable` (assertion error otherwise).
 - `package.json` does not exist yet — it arrives with Milestone 1 (see PLAN.md). `npm` commands fail until then.
