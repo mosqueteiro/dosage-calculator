@@ -1,0 +1,15 @@
+{
+  "name": "dosage-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal, private, offline-capable PWA for peptide reconstitution and dosage math. Zero runtime dependencies.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "tsc --noEmit --checkJs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
+  }
+}
