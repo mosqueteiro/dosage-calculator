@@ -22,9 +22,9 @@
   ];
 
   # Serve the app locally for manual testing: http://localhost:8000
-  scripts.serve.exec = ''
-    exec python3 -m http.server 8000
-  '';
+  # Managed lifecycle: `devenv up` (foreground) or `devenv up -d` (background),
+  # stopped with `devenv processes down`.
+  processes.serve.exec = "python3 -m http.server 8000";
 
   # `devenv test` — CI-equivalent quality gate.
   # npm test / npm run check arrive with package.json in Milestone 1.

@@ -3,7 +3,7 @@
 ## Commands
 
 - `devenv shell` — enter the dev environment (Node 24, npm, Python).
-- `serve` — inside devenv shell, serves the repo at http://localhost:8000 (Python http.server, no deps).
+- `devenv up -d` — serve the repo in the background at http://localhost:8000 (Python http.server, no deps). Stop with `devenv processes down`, or run `devenv up` for a foreground server.
 - `devenv test` — CI-equivalent check. Today it only verifies toolchain versions; once `package.json` exists it runs `npm install`, `npm test`, `npm run check` automatically.
 - There is no build step. Source files are served as-is; never add a bundler without discussing first.
 
