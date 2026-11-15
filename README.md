@@ -3,6 +3,9 @@
 A minimal, private, offline-capable PWA for calculating peptide reconstitution
 concentrations and dosage volumes.
 
+**Live app:** <https://mosqueteiro.github.io/dosage-calculator/> — install it
+from your browser's menu ("Install app" / "Add to Home Screen").
+
 - **Reconstitution mode** — enter vial amount + diluent volume + desired dose;
   get concentration, draw volume, and syringe units.
 - **Quick dose mode** — concentration already known? Just compute the dose volume.
