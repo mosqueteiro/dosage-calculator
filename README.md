@@ -16,6 +16,12 @@ from your browser's menu ("Install app" / "Add to Home Screen").
 - **Offline & installable** — works with no connection; install it to your
   home screen as a PWA.
 
+## Screenshots
+
+| Light | Dark | Menu — presets, history, settings |
+| --- | --- | --- |
+| ![Light mode](docs/screenshots/light.png) | ![Dark mode](docs/screenshots/dark.png) | ![Presets and history drawer](docs/screenshots/drawer.png) |
+
 ## Privacy
 
 All data (presets, history, settings) is stored locally on your device in
