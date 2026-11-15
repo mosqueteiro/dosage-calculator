@@ -6,12 +6,14 @@ import { initDrawer } from './ui/drawer.js';
 import { initPresets } from './ui/presets.js';
 import { initHistory } from './ui/history.js';
 import { initSettings } from './ui/settings.js';
+import { initTheme } from './ui/theme.js';
 
 const controller = initCalculator();
 initDrawer();
 initPresets(controller);
 initHistory(controller);
 initSettings(controller);
+initTheme();
 
 // PWA: offline app shell. Relative registration/scope so it works on
 // GitHub Pages project sites (/<repo>/), not just at a domain root.

@@ -4,9 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#101012" media="(prefers-color-scheme: dark)">
   <title>Dosage Calculator</title>
+  <script>
+    /* Pre-paint display mode (avoids a theme flash). Keep the storage key
+       in sync with SETTINGS_KEY in src/js/lib/storage.js. */
+    try {
+      var s = JSON.parse(localStorage.getItem("settings") || "{}");
+      if (s.displayMode === "dark" || s.displayMode === "light") {
+        document.documentElement.dataset.theme = s.displayMode;
+      }
+    } catch (e) {}
+  </script>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
@@ -219,6 +229,14 @@
     <section class="section" id="settings-section" aria-label="Settings">
       <h2>Settings</h2>
       <div class="card">
+        <div class="field">
+          <label for="display-mode">Display mode</label>
+          <select id="display-mode">
+            <option value="system">Follow system</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
         <div class="field">
           <label for="units-per-ml">Syringe units per mL</label>
           <p class="hint">100 = U-100 insulin syringe (the default). Use 40 for U-40, 50 for U-50, etc.</p>

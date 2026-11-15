@@ -124,7 +124,7 @@ Edge cases to specify and test:
 - Storage: `localStorage` (single JSON key per store). Simple, synchronous,
   plenty for this data size. Everything is on-device; no permissions needed.
 - Stores:
-  - `settings` — `{ unitsPerMl, ... }`
+  - `settings` — `{ unitsPerMl, displayMode ("system" | "light" | "dark"), ... }`
   - `reconstitutionPresets` — `{ id, name, vialAmount, vialUnit ("mg"|"mcg"), diluentMl, createdAt }`
   - `dosePresets` — `{ id, name, doseAmount, doseUnit, linkedPresetId?, createdAt }`
   - `history` — `{ id, timestamp, mode, inputs, results }` (FIFO, capped)

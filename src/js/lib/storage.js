@@ -15,7 +15,7 @@
  * @property {(key: string, value: string) => void} setItem
  */
 
-/** localStorage key for `{ unitsPerMl, ... }`. */
+/** localStorage key for `{ unitsPerMl, displayMode, ... }`. */
 export const SETTINGS_KEY = 'settings';
 /** localStorage key for reconstitution presets. */
 export const RECONSTITUTION_PRESETS_KEY = 'reconstitutionPresets';
@@ -29,6 +29,13 @@ export const HISTORY_CAP = 200;
 
 /** U-100 default (PLAN.md §3.3), used when settings are absent or invalid. */
 export const DEFAULT_UNITS_PER_ML = 100;
+
+/**
+ * Manual display override; "system" follows prefers-color-scheme.
+ * @typedef {'system' | 'light' | 'dark'} DisplayMode
+ * @type {DisplayMode}
+ */
+export const DEFAULT_DISPLAY_MODE = 'system';
 
 /**
  * Create a JSON store bound to one key.
@@ -88,33 +95,37 @@ export function capHistory(history, cap = HISTORY_CAP) {
 }
 
 /**
- * Read the settings store, validating `unitsPerMl` (whole number ≥ 1).
- * Anything invalid falls back to the U-100 default.
+ * Read the settings store, validating each field. `unitsPerMl` must be a
+ * whole number ≥ 1; `displayMode` must be "system" | "light" | "dark".
+ * Anything invalid falls back to its default.
  *
  * @param {StorageLike} storage
- * @returns {{ unitsPerMl: number }}
+ * @returns {{ unitsPerMl: number, displayMode: DisplayMode }}
  */
 export function loadSettings(storage) {
-  const fallback = { unitsPerMl: DEFAULT_UNITS_PER_ML };
+  const fallback = { unitsPerMl: DEFAULT_UNITS_PER_ML, displayMode: DEFAULT_DISPLAY_MODE };
   const raw = createStore(storage, SETTINGS_KEY, fallback).load();
   if (typeof raw !== 'object' || raw === null) return fallback;
-  const unitsPerMl = /** @type {Record<string, unknown>} */ (raw)['unitsPerMl'];
-  if (
+  const stored = /** @type {Record<string, unknown>} */ (raw);
+  const unitsPerMl = stored['unitsPerMl'];
+  const unitsValid =
     typeof unitsPerMl === 'number' &&
     Number.isInteger(unitsPerMl) &&
     unitsPerMl >= 1 &&
-    unitsPerMl <= 100000
-  ) {
-    return { unitsPerMl };
-  }
-  return fallback;
+    unitsPerMl <= 100000;
+  const mode = stored['displayMode'];
+  const modeValid = mode === 'system' || mode === 'light' || mode === 'dark';
+  return {
+    unitsPerMl: unitsValid ? unitsPerMl : fallback.unitsPerMl,
+    displayMode: modeValid ? /** @type {DisplayMode} */ (mode) : fallback.displayMode,
+  };
 }
 
 /**
  * Persist settings.
  *
  * @param {StorageLike} storage
- * @param {{ unitsPerMl: number }} settings
+ * @param {{ unitsPerMl: number, displayMode: DisplayMode }} settings
  * @returns {boolean}
  */
 export function saveSettings(storage, settings) {

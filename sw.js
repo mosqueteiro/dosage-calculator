@@ -8,7 +8,7 @@
  * bump CACHE_VERSION below — otherwise installed clients keep serving the
  * previously cached files. (See the AGENTS.md toolchain notes.)
  */
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v5';
 const CACHE_NAME = `dosage-calculator-${CACHE_VERSION}`;
 
 /** Relative, scope-rooted precache list: the whole app shell. */
@@ -23,6 +23,7 @@ const PRECACHE = [
   './src/js/ui/presets.js',
   './src/js/ui/history.js',
   './src/js/ui/settings.js',
+  './src/js/ui/theme.js',
   './src/js/lib/calc.js',
   './src/js/lib/storage.js',
   './icons/icon-192.png',
@@ -33,10 +34,16 @@ const PRECACHE = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.addAll(PRECACHE))
-      .then(() => self.skipWaiting()),
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      // `cache: 'reload'` bypasses the HTTP cache. Dev servers like
+      // `python3 -m http.server` send no validators, so a default-mode
+      // install can precache stale assets right after an edit.
+      await Promise.all(
+        PRECACHE.map((url) => cache.add(new Request(url, { cache: 'reload' }))),
+      );
+      await self.skipWaiting();
+    })(),
   );
 });
 

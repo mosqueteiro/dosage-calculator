@@ -1,7 +1,7 @@
 /* Dosage Calculator — mobile-first, minimal, light/dark. */
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --bg: #f4f4f5;
   --card: #ffffff;
   --text: #18181b;
@@ -12,10 +12,34 @@
   --warn-bg: #fef3c7;
   --warn-border: #f59e0b;
   --warn-text: #78350f;
+  --danger: #b91c1c;
 }
 
+/* Forced dark (Display mode: Dark). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #101012;
+  --card: #1b1b1e;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --border: #3f3f46;
+  --accent: #3b82f6;
+  --accent-text: #0b0b0c;
+  --warn-bg: #3a2c10;
+  --warn-border: #d97706;
+  --warn-text: #fde68a;
+  --danger: #f87171;
+}
+
+/* Forced light must win over the OS preference below. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* System default (Display mode: System): follow the OS preference. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --bg: #101012;
     --card: #1b1b1e;
     --text: #f4f4f5;
@@ -26,6 +50,7 @@
     --warn-bg: #3a2c10;
     --warn-border: #d97706;
     --warn-text: #fde68a;
+    --danger: #f87171;
   }
 }
 
@@ -410,15 +435,8 @@ body {
 }
 
 .btn-danger {
-  color: #b91c1c;
-  border-color: #b91c1c;
-}
-
-@media (prefers-color-scheme: dark) {
-  .btn-danger {
-    color: #f87171;
-    border-color: #b91c1c;
-  }
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .btn-icon {

@@ -6,6 +6,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  DEFAULT_DISPLAY_MODE,
   DEFAULT_UNITS_PER_ML,
   HISTORY_CAP,
   capHistory,
@@ -128,32 +129,57 @@ test('capHistory: empty and non-array inputs', () => {
 // settings
 // ---------------------------------------------------------------------------
 
-test('loadSettings: default U-100 when nothing is stored', () => {
-  assert.deepEqual(loadSettings(new FakeStorage()), { unitsPerMl: DEFAULT_UNITS_PER_ML });
+test('loadSettings: defaults when nothing is stored', () => {
+  assert.deepEqual(loadSettings(new FakeStorage()), {
+    unitsPerMl: DEFAULT_UNITS_PER_ML,
+    displayMode: DEFAULT_DISPLAY_MODE,
+  });
 });
 
-test('loadSettings: valid stored value', () => {
+test('loadSettings: valid stored values', () => {
+  const storage = new FakeStorage();
+  storage.setItem('settings', JSON.stringify({ unitsPerMl: 40, displayMode: 'dark' }));
+  assert.deepEqual(loadSettings(storage), { unitsPerMl: 40, displayMode: 'dark' });
+});
+
+test('loadSettings: missing displayMode defaults to "system"', () => {
   const storage = new FakeStorage();
   storage.setItem('settings', JSON.stringify({ unitsPerMl: 40 }));
-  assert.deepEqual(loadSettings(storage), { unitsPerMl: 40 });
+  assert.deepEqual(loadSettings(storage), { unitsPerMl: 40, displayMode: 'system' });
 });
 
-test('loadSettings: invalid values fall back to the default', () => {
+test('loadSettings: invalid values fall back to defaults', () => {
   for (const bad of ['100', 0, -5, 1.5, null, undefined]) {
     const storage = new FakeStorage();
     storage.setItem('settings', JSON.stringify({ unitsPerMl: bad }));
-    assert.deepEqual(loadSettings(storage), { unitsPerMl: DEFAULT_UNITS_PER_ML }, `unitsPerMl: ${JSON.stringify(bad)}`);
+    assert.deepEqual(
+      loadSettings(storage),
+      { unitsPerMl: DEFAULT_UNITS_PER_ML, displayMode: 'system' },
+      `unitsPerMl: ${JSON.stringify(bad)}`,
+    );
+  }
+  for (const badMode of ['blue', 1, null, '']) {
+    const storage = new FakeStorage();
+    storage.setItem('settings', JSON.stringify({ unitsPerMl: 40, displayMode: badMode }));
+    assert.deepEqual(
+      loadSettings(storage),
+      { unitsPerMl: 40, displayMode: 'system' },
+      `displayMode: ${JSON.stringify(badMode)}`,
+    );
   }
 });
 
-test('loadSettings: corrupt JSON falls back to the default', () => {
+test('loadSettings: corrupt JSON falls back to defaults', () => {
   const storage = new FakeStorage();
   storage.setItem('settings', 'not json');
-  assert.deepEqual(loadSettings(storage), { unitsPerMl: DEFAULT_UNITS_PER_ML });
+  assert.deepEqual(loadSettings(storage), {
+    unitsPerMl: DEFAULT_UNITS_PER_ML,
+    displayMode: DEFAULT_DISPLAY_MODE,
+  });
 });
 
 test('saveSettings/loadSettings round-trip', () => {
   const storage = new FakeStorage();
-  assert.equal(saveSettings(storage, { unitsPerMl: 50 }), true);
-  assert.deepEqual(loadSettings(storage), { unitsPerMl: 50 });
+  assert.equal(saveSettings(storage, { unitsPerMl: 50, displayMode: 'light' }), true);
+  assert.deepEqual(loadSettings(storage), { unitsPerMl: 50, displayMode: 'light' });
 });

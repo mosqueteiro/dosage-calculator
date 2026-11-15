@@ -4,7 +4,7 @@
  * are supported by changing this value. Persisted in the settings store.
  */
 import { CalcError, CalcErrorCode, parseUnitsPerMl } from '../lib/calc.js';
-import { saveSettings } from '../lib/storage.js';
+import { loadSettings, saveSettings } from '../lib/storage.js';
 
 /**
  * @param {string} id
@@ -32,7 +32,8 @@ export function initSettings(controller) {
     try {
       const unitsPerMl = parseUnitsPerMl(input.value);
       controller.setUnitsPerMl(unitsPerMl);
-      saveSettings(localStorage, { unitsPerMl });
+      // Merge into the full settings store so displayMode is preserved.
+      saveSettings(localStorage, { ...loadSettings(localStorage), unitsPerMl });
       warning.hidden = true;
     } catch (err) {
       if (!(err instanceof CalcError)) throw err;
