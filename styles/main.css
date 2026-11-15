@@ -53,11 +53,36 @@ body {
   max-width: 40rem;
   margin: 0 auto;
   padding: 1rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .app-header h1 {
   margin: 0;
   font-size: 1.35rem;
+}
+
+.menu-button {
+  flex: none;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.menu-button:hover {
+  border-color: var(--muted);
+}
+
+.menu-button:focus-visible,
+.drawer-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 /* --- Disclaimer: persistent and prominent -------------------------------- */
@@ -248,6 +273,71 @@ body {
 
 .warnings li + li {
   margin-top: 0.2rem;
+}
+
+/* --- Drawer (hamburger menu: presets / history / settings) ------------------ */
+
+.drawer-lock {
+  overflow: hidden;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 40;
+}
+
+.drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(26rem, 100vw);
+  padding: 0.75rem 1rem 2rem;
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  box-shadow: 0 0 2rem rgb(0 0 0 / 0.25);
+  overflow-y: auto;
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0s linear 0.25s;
+  z-index: 50;
+}
+
+.drawer.open {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.25s ease;
+}
+
+.drawer-head {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.25rem;
+}
+
+.drawer .section h2 {
+  margin-top: 1rem;
+}
+
+.drawer .section:first-of-type h2 {
+  margin-top: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer,
+  .drawer-backdrop {
+    transition: none;
+  }
 }
 
 /* --- Sections (presets / history / settings) -------------------------------- */

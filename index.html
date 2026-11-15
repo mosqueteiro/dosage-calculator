@@ -16,6 +16,13 @@
 <body>
   <header class="app-header">
     <h1>Dosage Calculator</h1>
+    <button type="button" id="menu-button" class="menu-button"
+            aria-expanded="false" aria-controls="drawer"
+            aria-label="Open presets, history and settings">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
   </header>
 
   <section class="disclaimer" role="note" aria-label="Disclaimer">
@@ -156,6 +163,15 @@
       <div class="warnings" id="quick-warnings" role="status" aria-live="polite"></div>
     </section>
 
+  </main>
+
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+  <aside id="drawer" class="drawer" role="dialog" aria-modal="true"
+         aria-label="Presets, history and settings">
+    <div class="drawer-head">
+      <button type="button" id="drawer-close" class="btn btn-icon"
+              aria-label="Close menu">✕</button>
+    </div>
     <!-- ============================= Presets ============================= -->
     <section class="section" id="presets-section" aria-label="Presets">
       <h2>Presets</h2>
@@ -212,7 +228,7 @@
         </div>
       </div>
     </section>
-  </main>
+  </aside>
 
   <footer class="app-footer">
     <p>Runs entirely on your device. No network calls, no analytics.</p>

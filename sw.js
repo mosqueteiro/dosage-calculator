@@ -8,7 +8,7 @@
  * bump CACHE_VERSION below — otherwise installed clients keep serving the
  * previously cached files. (See the AGENTS.md toolchain notes.)
  */
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `dosage-calculator-${CACHE_VERSION}`;
 
 /** Relative, scope-rooted precache list: the whole app shell. */
@@ -19,6 +19,7 @@ const PRECACHE = [
   './styles/main.css',
   './src/js/main.js',
   './src/js/ui/calculator.js',
+  './src/js/ui/drawer.js',
   './src/js/ui/presets.js',
   './src/js/ui/history.js',
   './src/js/ui/settings.js',
