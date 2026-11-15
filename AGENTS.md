@@ -10,6 +10,7 @@
 ## Toolchain quirks (hard-earned)
 
 - **`devenv test` vs running processes**: `devenv test` fails with "Processes already running" while a `devenv up -d` server is up. Either `devenv processes down` first, or run `devenv shell -- npm test` / `npm run check` directly (the server stays up).
+- **Service worker caching**: `sw.js` is cache-first — after changing any app asset, bump `CACHE_VERSION` in `sw.js`, or the installed app keeps serving stale files. (Dev server + hard reload also gets confused by SW caches; the headless-screenshot profiles sidestep it.)
 
 - **Dev server caching**: `python3 -m http.server` sends no `Cache-Control`, so browsers heuristically cache CSS/JS — soft reloads can serve stale assets (use hard reload, or a fresh `--profile` dir for headless-Firefox screenshots). Decided: we keep plain http.server anyway.
 
